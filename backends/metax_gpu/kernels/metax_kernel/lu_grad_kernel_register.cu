@@ -11,18 +11,18 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-// #include "paddle/phi/core/kernel_registry.h"
-// #include "paddle/phi/kernels/lu_kernel.h"
-// #include "paddle/phi/kernels/impl/lu_kernel_impl.h"
-// #include "paddle/phi/kernels/gpu/lu_kernel.cu"
-
-// PD_REGISTER_PLUGIN_KERNEL(lu,  // cuda_only
-//                    metax_gpu,
-//                    ALL_LAYOUT,
-//                    phi::LUKernel,
-//                    float,
-//                    double) {
-//   kernel->OutputAt(1).SetDataType(phi::DataType::INT32);
-//   kernel->OutputAt(2).SetDataType(phi::DataType::INT32);
-// }
+// clang-format off
+#include "paddle/phi/core/tensor_utils.h"  //NOLINT
+#include "kernels/impl/lu_grad_kernel_impl.h"
+#include "paddle/phi/backends/gpu/gpu_context.h"
+#include "paddle/phi/core/kernel_registry.h"
+#include "paddle/phi/kernels/lu_grad_kernel.h"
+// clang-format on
+PD_REGISTER_PLUGIN_KERNEL(lu_grad,
+                          metax_gpu,
+                          ALL_LAYOUT,
+                          phi::LUGradKernel,
+                          float,
+                          double,
+                          phi::dtype::complex<float>,
+                          phi::dtype::complex<double>) {}
