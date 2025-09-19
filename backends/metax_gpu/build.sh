@@ -21,9 +21,10 @@ pip  uninstall paddlepaddle -y
 
 
 # init paddle
-git submodule sync --recursive && git submodule update --init --recursive
-sleep 1000000
-unset http_proxy https_proxy
+# git submodule sync --recursive && git submodule update --init --recursive
+
+# sleep 1000000
+# unset http_proxy https_proxy
 
 
 # export http_proxy=https://172.17.0.1:1080 https_proxy=http://10.2.192.21:1080
@@ -56,7 +57,7 @@ fi
 
 echo "make_maca"
 cd build
-cmake_maca .. -DPython3_EXECUTABLE=$(which python3) -DWITH_GPU=ON
+cmake_maca .. -DCMAKE_BUILD_TYPE=Release -DPython3_EXECUTABLE=$(which python3) -DWITH_GPU=ON
 make_maca -j60
 
 echo "install whl"
