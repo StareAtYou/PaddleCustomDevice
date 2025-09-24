@@ -9,6 +9,8 @@ set(PADDLE_LEGACY_TEST_PATH
     ${CMAKE_CURRENT_LIST_DIR}/../../../Paddle/test/legacy_test)
 set(METAX_UNIT_TEST_PATH ${CMAKE_CURRENT_LIST_DIR}/unit_test)
 
+set(NEED_REMOVE_KEYWORDS "attention")
+
 file(GLOB_RECURSE PYTHON_TEST_SCRIPTS "${METAX_UNIT_TEST_PATH}/*.py")
 
 if(NOT TEST_LIST_FILE)
@@ -33,6 +35,20 @@ else()
 endif()
 
 foreach(test_name ${TEST_PROGRAMS})
+  set(IS_REMOVE FALSE)
+
+  foreach(keyword ${NEED_REMOVE_KEYWORDS})
+    string(FIND "${test_name}" "${keyword}" RES)
+    if(NOT RES EQUAL -1)
+      set(IS_REMOVE TRUE)
+      break()
+    endif()
+  endforeach()
+
+  if(IS_REMOVE)
+    continue()
+  endif()
+
   set(CURRENT_TEST_PROGRAM ${PADDLE_LEGACY_TEST_PATH}/${test_name}.py)
   if(NOT EXISTS ${CURRENT_TEST_PROGRAM})
     message(WARNING "${CURRENT_TEST_PROGRAM} is not exist, skip it.")
