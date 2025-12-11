@@ -1,4 +1,4 @@
-// Copyright (c) 2023 PaddlePaddle Authors. All Rights Reserved.
+// Copyright (c) 2025 PaddlePaddle Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "paddle/phi/backends/gpu/gpu_context.h"
 #include "paddle/phi/core/kernel_registry.h"
-#include "paddle/phi/kernels/funcs/aligned_vector.h"
-#include "paddle/phi/kernels/fusion/gpu/fused_rope_kernel.cu"  //NOLINT
-#include "paddle/phi/kernels/fusion/gpu/fused_rope_utils.h"
-PD_CUSTOM_KERNEL_REGISTER(fused_rotary_position_embedding,
-                          metax_gpu,
+#include "paddle/phi/kernels/legacy/gpu/batched_gemm.h"
+
+PD_CUSTOM_KERNEL_REGISTER(batched_gemm,
+                          iluvatar_gpu,
                           ALL_LAYOUT,
-                          phi::fusion::FusedRopeKernel,
+                          phi::BatchedGEMM,
                           float,
-                          phi::dtype::float16,
-                          phi::dtype::bfloat16){};
+                          phi::bfloat16) {}
